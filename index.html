@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The SEO Harvest — Get found. Get the call. Get the job.</title>
+<meta name="description" content="A Fort Worth tradesman who gets contractors found on Google. See who's getting the calls in your area — free.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Mulish:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --soil:#211a13;        /* near-black warm brown: text + dark sections */
+    --soil-2:#2e2417;
+    --paper:#ece2cb;       /* warm manila/kraft: main background */
+    --paper-2:#e3d6b8;     /* slightly deeper panel */
+    --paper-card:#f5efe0;  /* light card surface */
+    --gold:#cf8f23;        /* harvest/wheat gold — "reap" */
+    --gold-deep:#a06912;
+    --field:#46591f;       /* deep field green — "raise" / grow */
+    --field-deep:#33420f;
+    --rust:#9c4a1e;        /* worn-steel accent, used sparingly */
+    --line:rgba(33,26,19,.16);
+    --line-soft:rgba(33,26,19,.09);
+    --ink-soft:#5b4f3c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Mulish',-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--soil);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* faint paper grain */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 26px;position:relative;z-index:1;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,.display{font-family:'Saira Condensed',sans-serif;font-weight:800;line-height:1.02;letter-spacing:-.01em;text-transform:uppercase;}
+
+  .eyebrow{font-family:'Saira Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.22em;font-size:13px;color:var(--gold-deep);}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:.5em;font-family:'Saira Condensed',sans-serif;font-weight:800;
+    text-transform:uppercase;letter-spacing:.04em;font-size:19px;background:var(--field);color:#fff;
+    padding:15px 26px;border:none;border-radius:3px;cursor:pointer;transition:transform .15s ease,background .15s ease;}
+  .btn:hover{background:var(--field-deep);transform:translateY(-2px);}
+  .btn .arw{transition:transform .15s ease;}
+  .btn:hover .arw{transform:translateX(4px);}
+  .btn-gold{background:var(--gold);color:var(--soil);}
+  .btn-gold:hover{background:var(--gold-deep);color:#fff;}
+
+  /* ---------- top bar ---------- */
+  .bar{position:sticky;top:0;z-index:20;background:rgba(33,26,19,.96);color:#f3ecdc;backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.07);}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .mark{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;font-size:22px;letter-spacing:.01em;}
+  .brand .mark b{color:var(--gold);}
+  .brand .kick{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.18em;color:#b8a98a;text-transform:uppercase;}
+  .wheat{flex:0 0 auto;color:var(--gold);}
+  .brand .wheat{height:44px;width:auto;}
+  .bar .btn{font-size:15px;padding:9px 16px;}
+  @media(max-width:680px){.brand .kick{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 64px;}
+  .hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;}
+  .hero h1{font-size:clamp(40px,6vw,68px);margin:16px 0 0;}
+  .hero h1 .grow{color:var(--field);}
+  .hero p.lead{font-size:19px;color:var(--soil);margin:22px 0 6px;max-width:33em;}
+  .hero p.lead b{color:var(--gold-deep);}
+  .hero .cta-row{margin-top:26px;display:flex;flex-direction:column;gap:9px;align-items:flex-start;}
+  .hero .micro{font-size:14px;color:var(--ink-soft);}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  /* ---------- standings card (signature) ---------- */
+  .card{background:var(--paper-card);border:1px solid var(--line);border-radius:8px;
+    box-shadow:0 18px 40px -22px rgba(33,26,19,.55);overflow:hidden;}
+  .card .head{background:var(--soil);color:#f3ecdc;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;}
+  .card .head .t{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:20px;}
+  .card .head .t span{color:var(--gold);}
+  .card .head .tag{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.14em;background:var(--rust);color:#fff;padding:3px 8px;border-radius:3px;text-transform:uppercase;}
+  .card .sub{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink-soft);padding:11px 18px 4px;letter-spacing:.02em;}
+  .row{display:flex;align-items:center;gap:13px;padding:12px 18px;border-top:1px solid var(--line-soft);font-family:'Spline Sans Mono',monospace;}
+  .row .pos{width:22px;font-weight:600;color:var(--ink-soft);font-size:14px;}
+  .row .nm{flex:1;font-family:'Mulish',sans-serif;font-weight:700;font-size:15px;}
+  .row .stat{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;}
+  .row.you{background:linear-gradient(90deg,rgba(207,143,35,.16),rgba(156,74,30,.10));border-top:1px solid var(--gold);}
+  .row.you .pos{color:var(--rust);}
+  .row.you .nm{color:var(--rust);text-transform:uppercase;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em;}
+  .row.you .stat{color:var(--rust);font-weight:600;}
+  .card .foot{padding:11px 18px;background:var(--paper-2);font-size:12.5px;color:var(--ink-soft);border-top:1px solid var(--line);}
+  .card .foot b{color:var(--soil);}
+
+  /* ---------- honest strip ---------- */
+  .strip{background:var(--soil);color:#e9dcc0;}
+  .strip .wrap{padding:18px 26px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;font-size:clamp(17px,2.4vw,22px);}
+  .strip b{color:var(--gold);}
+
+  /* ---------- generic section ---------- */
+  .sec{padding:78px 0;}
+  .sec-head{max-width:30em;margin-bottom:40px;}
+  .sec-head h2{font-size:clamp(30px,4.2vw,46px);margin:10px 0 0;}
+  .sec-head p{font-size:18px;color:var(--ink-soft);margin-top:14px;}
+
+  /* why me */
+  .why{background:var(--paper-2);}
+  .why .grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:48px;align-items:center;}
+  .photoph{aspect-ratio:4/5;background:repeating-linear-gradient(135deg,#d8c8a4,#d8c8a4 14px,#d2c19a 14px,#d2c19a 28px);
+    border:2px dashed var(--gold-deep);border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;}
+  .photoph span{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--soil-2);line-height:1.7;letter-spacing:.02em;}
+  .why h2{font-size:clamp(30px,4.4vw,48px);}
+  .why .body{font-size:18px;margin-top:18px;max-width:34em;}
+  .why .body p{margin-top:14px;}
+  .why .body b{color:var(--gold-deep);}
+  .creds{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap;}
+  .cred{border-left:3px solid var(--gold);padding-left:14px;}
+  .cred .n{font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:34px;line-height:1;color:var(--field);}
+  .cred .l{font-size:13.5px;color:var(--ink-soft);max-width:15em;margin-top:4px;}
+
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .step{background:var(--paper-card);border:1px solid var(--line);border-radius:8px;padding:26px 24px;position:relative;}
+  .step .no{font-family:'Spline Sans Mono',monospace;font-size:13px;color:var(--gold-deep);letter-spacing:.12em;}
+  .step h3{font-size:25px;margin:12px 0 8px;color:var(--field);}
+  .step p{font-size:15.5px;color:var(--soil);}
+  .step .mech{margin-top:12px;font-size:12.5px;color:var(--ink-soft);font-style:italic;}
+  .reap-note{margin-top:30px;text-align:center;font-family:'Spline Sans Mono',monospace;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold-deep);font-size:14px;}
+
+  /* who I help */
+  .who{background:var(--soil);color:var(--paper);}
+  .who .eyebrow{color:var(--gold);}
+  .who h2{font-size:clamp(30px,4.2vw,46px);margin-top:10px;}
+  .who p.body{font-size:18px;color:#cdbf9f;margin-top:14px;max-width:32em;}
+  .trades{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px;}
+  .trade{font-family:'Saira Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+    font-size:16px;padding:9px 16px;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:#e9dcc0;}
+  .who .local{margin-top:28px;font-size:15px;color:#b8a98a;max-width:34em;}
+
+  /* offer */
+  .offer{background:var(--field);color:#f4eeda;position:relative;overflow:hidden;}
+  .offer .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:start;}
+  .offer .eyebrow{color:#e9d49a;}
+  .offer h2{font-size:clamp(32px,4.6vw,50px);margin-top:10px;}
+  .offer .lead{font-size:18.5px;margin-top:18px;color:#eee6cf;max-width:32em;}
+  .offer ul{list-style:none;margin-top:22px;}
+  .offer li{padding:9px 0 9px 30px;position:relative;font-size:16.5px;color:#f4eeda;}
+  .offer li::before{content:"";position:absolute;left:0;top:14px;width:13px;height:13px;background:var(--gold);
+    border-radius:2px;transform:rotate(45deg);}
+
+  /* form */
+  .form{background:var(--paper-card);border-radius:10px;padding:28px 26px;box-shadow:0 20px 44px -24px rgba(0,0,0,.5);}
+  .form h3{font-size:24px;color:var(--soil);}
+  .form .fld{margin-top:14px;}
+  .form label{display:block;font-family:'Saira Condensed',sans-serif;font-weight:700;text-transform:uppercase;
+    letter-spacing:.04em;font-size:13px;color:var(--ink-soft);margin-bottom:5px;}
+  .form input,.form select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:5px;
+    font-family:'Mulish',sans-serif;font-size:15px;background:#fff;color:var(--soil);}
+  .form input:focus,.form select:focus{outline:2px solid var(--field);outline-offset:1px;border-color:var(--field);}
+  .form .btn{width:100%;justify-content:center;margin-top:18px;}
+  .form .spam{font-size:12.5px;color:var(--ink-soft);margin-top:12px;text-align:center;}
+  .ok{display:none;background:var(--soil);color:#f3ecdc;border-radius:8px;padding:26px;text-align:center;}
+  .ok.show{display:block;}
+  .ok .big{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;font-size:24px;color:var(--gold);}
+  .ok p{margin-top:8px;font-size:15px;color:#dcceb0;}
+
+  /* footer */
+  footer{background:var(--soil-2);color:#b8a98a;}
+  footer .wrap{padding:40px 26px;text-align:center;}
+  footer .fmark{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;font-size:24px;color:#f3ecdc;}
+  .fwheat{height:62px;width:auto;display:block;margin:0 auto 14px;}
+  footer .fmark b{color:var(--gold);}
+  footer .fkick{font-family:'Spline Sans Mono',monospace;letter-spacing:.2em;font-size:12px;margin-top:8px;text-transform:uppercase;}
+  footer .meta{margin-top:16px;font-size:14px;}
+  footer .tag{margin-top:14px;font-size:12.5px;opacity:.7;font-style:italic;}
+
+  /* responsive */
+  @media(max-width:880px){
+    .hero .grid,.why .grid,.offer .grid{grid-template-columns:1fr;}
+    .why .grid{gap:30px;}
+    .hero{padding:48px 0 44px;}
+    .steps{grid-template-columns:1fr;}
+    .photoph{aspect-ratio:16/10;max-width:340px;}
+    .sec{padding:58px 0;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .reveal{transition:none;opacity:1;transform:none;}
+    .btn,.btn .arw{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="bar">
+  <div class="wrap">
+    <div class="brand">
+      <span class="mark">The SEO <b>Harvest</b></span>
+      <svg class="wheat" viewBox="0 0 64 78" aria-hidden="true" fill="currentColor"><g transform="translate(32 60) rotate(-19) scale(1.0)"><path d="M0 12 C0 1,-2.4 -9,-3.6 -18" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 -9 q-5 -1 -8 -4 q4 4.5 8 6 z"/><g transform="rotate(-26 -3.6 -18) translate(-3.6 1)"><path d="M0.07 -37.0 L1.02 -50.1" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L-3.49 -47.7" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L3.00 -48.0" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><ellipse cx="-2.24" cy="-21.49" rx="1.53" ry="2.74" transform="rotate(-33.7 -2.24 -21.49)"/><ellipse cx="2.67" cy="-21.55" rx="1.77" ry="3.09" transform="rotate(40.2 2.67 -21.55)"/><ellipse cx="-2.59" cy="-24.97" rx="1.52" ry="2.56" transform="rotate(-42.3 -2.59 -24.97)"/><ellipse cx="2.05" cy="-24.96" rx="1.50" ry="2.72" transform="rotate(42.8 2.05 -24.96)"/><ellipse cx="-1.93" cy="-27.63" rx="1.48" ry="2.56" transform="rotate(-41.1 -1.93 -27.63)"/><ellipse cx="2.51" cy="-27.04" rx="1.54" ry="2.66" transform="rotate(35.4 2.51 -27.04)"/><ellipse cx="-2.03" cy="-30.77" rx="1.43" ry="2.38" transform="rotate(-33.1 -2.03 -30.77)"/><ellipse cx="1.74" cy="-29.70" rx="1.46" ry="2.22" transform="rotate(33.9 1.74 -29.70)"/><ellipse cx="-1.65" cy="-34.94" rx="1.20" ry="2.09" transform="rotate(-36.2 -1.65 -34.94)"/><ellipse cx="1.87" cy="-35.79" rx="1.09" ry="2.19" transform="rotate(44.5 1.87 -35.79)"/><ellipse cx="-1.74" cy="-38.84" rx="1.01" ry="1.92" transform="rotate(-33.8 -1.74 -38.84)"/><ellipse cx="1.11" cy="-38.46" rx="1.13" ry="1.98" transform="rotate(41.2 1.11 -38.46)"/><ellipse cx="0.14" cy="-22.50" rx="1.38" ry="2.77"/><ellipse cx="-0.23" cy="-25.63" rx="1.56" ry="2.77"/><ellipse cx="0.38" cy="-28.86" rx="1.25" ry="2.48"/><ellipse cx="0.14" cy="-33.04" rx="1.14" ry="2.56"/><ellipse cx="-0.24" cy="-35.01" rx="1.26" ry="2.18"/></g></g><g transform="translate(32 60) rotate(26) scale(0.92)"><path d="M0 12 C0 2,1.8 -9,3 -19" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 -5 q5 -1 8 -4 q-4 4.5 -8 6 z"/><g transform="rotate(17 3 -19) translate(3 1)"><path d="M0.05 -37.0 L-0.31 -49.6" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L-3.30 -49.7" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L2.72 -46.7" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><ellipse cx="-2.74" cy="-20.41" rx="1.59" ry="3.03" transform="rotate(-38.3 -2.74 -20.41)"/><ellipse cx="2.63" cy="-21.42" rx="1.65" ry="3.05" transform="rotate(38.3 2.63 -21.42)"/><ellipse cx="-2.07" cy="-25.02" rx="1.58" ry="2.74" transform="rotate(-40.8 -2.07 -25.02)"/><ellipse cx="1.80" cy="-24.05" rx="1.48" ry="2.79" transform="rotate(43.3 1.80 -24.05)"/><ellipse cx="-1.57" cy="-28.07" rx="1.48" ry="2.48" transform="rotate(-31.9 -1.57 -28.07)"/><ellipse cx="2.29" cy="-28.43" rx="1.24" ry="2.39" transform="rotate(44.5 2.29 -28.43)"/><ellipse cx="-1.56" cy="-30.99" rx="1.27" ry="2.25" transform="rotate(-40.1 -1.56 -30.99)"/><ellipse cx="1.75" cy="-30.65" rx="1.41" ry="2.37" transform="rotate(44.0 1.75 -30.65)"/><ellipse cx="-0.96" cy="-35.13" rx="1.03" ry="2.24" transform="rotate(-31.5 -0.96 -35.13)"/><ellipse cx="1.76" cy="-35.26" rx="1.23" ry="1.98" transform="rotate(42.6 1.76 -35.26)"/><ellipse cx="-0.22" cy="-22.50" rx="1.37" ry="2.93"/><ellipse cx="-0.41" cy="-26.09" rx="1.49" ry="2.59"/><ellipse cx="-0.21" cy="-28.68" rx="1.38" ry="2.58"/><ellipse cx="0.11" cy="-31.58" rx="1.06" ry="2.35"/></g></g><g transform="translate(32 60) rotate(-5) scale(1.09)"><path d="M0 12 C0 2,0.8 -9,0.4 -20" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 -6 q5 -1 8 -4 q-4 4.5 -8 6 z"/><path d="M0 -11 q-5 -1 -8 -4 q4 4.5 8 6 z"/><g transform="rotate(7 0.4 -20)"><path d="M-0.42 -37.0 L0.36 -51.7" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L-3.44 -48.5" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L2.79 -48.0" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><ellipse cx="-2.56" cy="-21.52" rx="1.45" ry="2.87" transform="rotate(-33.4 -2.56 -21.52)"/><ellipse cx="2.16" cy="-21.33" rx="1.65" ry="3.08" transform="rotate(39.1 2.16 -21.33)"/><ellipse cx="-1.85" cy="-24.76" rx="1.64" ry="2.66" transform="rotate(-43.0 -1.85 -24.76)"/><ellipse cx="1.94" cy="-24.45" rx="1.62" ry="2.61" transform="rotate(39.1 1.94 -24.45)"/><ellipse cx="-2.17" cy="-27.76" rx="1.26" ry="2.40" transform="rotate(-42.1 -2.17 -27.76)"/><ellipse cx="2.22" cy="-27.91" rx="1.35" ry="2.61" transform="rotate(37.3 2.22 -27.91)"/><ellipse cx="-1.58" cy="-30.18" rx="1.24" ry="2.45" transform="rotate(-37.6 -1.58 -30.18)"/><ellipse cx="2.18" cy="-30.14" rx="1.25" ry="2.61" transform="rotate(32.7 2.18 -30.14)"/><ellipse cx="-1.39" cy="-34.36" rx="1.24" ry="2.08" transform="rotate(-35.6 -1.39 -34.36)"/><ellipse cx="1.86" cy="-33.85" rx="1.38" ry="2.19" transform="rotate(40.7 1.86 -33.85)"/><ellipse cx="-1.33" cy="-37.93" rx="1.27" ry="2.28" transform="rotate(-38.4 -1.33 -37.93)"/><ellipse cx="1.55" cy="-38.40" rx="1.22" ry="2.16" transform="rotate(44.9 1.55 -38.40)"/><ellipse cx="-0.22" cy="-22.50" rx="1.47" ry="2.86"/><ellipse cx="-0.04" cy="-25.51" rx="1.32" ry="2.52"/><ellipse cx="0.27" cy="-28.57" rx="1.23" ry="2.43"/><ellipse cx="0.37" cy="-32.20" rx="1.13" ry="2.36"/><ellipse cx="0.38" cy="-35.82" rx="1.28" ry="2.37"/></g></g></svg>
+      <span class="kick">Raise · Reap · Repeat</span>
+    </div>
+    <a href="#rank" class="btn">See where you rank</a>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal in">
+        <span class="eyebrow">For Fort Worth contractors</span>
+        <h1>See who's getting <span class="grow">the calls</span> you should be getting.</h1>
+        <p class="lead">Most contractors have no idea who's ahead of them on Google — or why. <b>I'll show you, free.</b> I'm Adam: 22 years in Fort Worth construction before I learned how to get found online. Not an agency. A tradesman who knows your work.</p>
+        <div class="cta-row">
+          <a href="#rank" class="btn">See where you rank <span class="arw">→</span></a>
+          <span class="micro">Free. No call required — I'll send it to your inbox.</span>
+        </div>
+      </div>
+
+      <!-- SIGNATURE: sample standings card -->
+      <div class="reveal in" style="transition-delay:.12s">
+        <div class="card" aria-label="Sample ranking report">
+          <div class="head">
+            <span class="t">Where You <span>Rank</span></span>
+            <span class="tag">Sample</span>
+          </div>
+          <div class="sub">Spray foam insulation · Fort Worth, TX</div>
+          <div class="row"><span class="pos">1</span><span class="nm">A North-side competitor</span><span class="stat">★ 4.8 · 132 reviews</span></div>
+          <div class="row"><span class="pos">2</span><span class="nm">A competitor across town</span><span class="stat">★ 4.6 · 88 reviews</span></div>
+          <div class="row"><span class="pos">3</span><span class="nm">A newer shop nearby</span><span class="stat">★ 4.9 · 41 reviews</span></div>
+          <div class="row you"><span class="pos">—</span><span class="nm">You</span><span class="stat">Not showing on the map</span></div>
+          <div class="foot">This is an example. <b>Yours uses your real trade, your real area, and real numbers.</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HONEST STRIP ============ -->
+<div class="strip">
+  <div class="wrap">Not a marketing agency. A <b>Fort Worth tradesman</b> who learned how to get you found.</div>
+</div>
+
+<!-- ============ WHY ME ============ -->
+<section class="sec why">
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal">
+        <!-- PHOTO: replace this placeholder with a real photo of Adam on a job site -->
+        <div class="photoph"><span>[ Photo of Adam<br>on a job site<br>goes here ]</span></div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Why me</span>
+        <h2>I've stood where you're standing.</h2>
+        <div class="body">
+          <p>I spent <b>12 years estimating</b> for insulation, drywall, stucco and paint subcontractors, and <b>10 more on the general-contractor side</b>. I know what a slow month feels like, and I know what a good lead is worth.</p>
+          <p>Then I learned how contractors get found online. So you're not explaining your business to some marketer who's never been on a job site — I already get it. That's the whole difference.</p>
+        </div>
+        <div class="creds">
+          <div class="cred"><div class="n">22</div><div class="l">years in construction</div></div>
+          <div class="cred"><div class="n">1</div><div class="l">guy who actually does your work — not a call center</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps. Same as growing anything.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="no">01 — RAISE</div>
+        <h3>Get found</h3>
+        <p>When someone in your area searches for your trade, you show up — on the map and in "near me" results, where the work actually comes from.</p>
+        <div class="mech">The Google profile + local listings part.</div>
+      </div>
+      <div class="step reveal" style="transition-delay:.08s">
+        <div class="no">02 — REAP</div>
+        <h3>The phone rings</h3>
+        <p>The contractor they see first is the one they call. We turn people finding you into people calling you.</p>
+        <div class="mech">Reviews, photos, the right info in the right place.</div>
+      </div>
+      <div class="step reveal" style="transition-delay:.16s">
+        <div class="no">03 — REPEAT</div>
+        <h3>Jobs get booked</h3>
+        <p>More calls means more booked work — and we keep it going month after month, so it builds instead of fading.</p>
+        <div class="mech">Steady upkeep, not a one-and-done.</div>
+      </div>
+    </div>
+    <div class="reap-note reveal">Raise · Reap · Repeat</div>
+  </div>
+</section>
+
+<!-- ============ WHO I HELP ============ -->
+<section class="sec who">
+  <div class="wrap">
+    <div class="sec-head reveal" style="max-width:34em;">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Built for Fort Worth contractors.</h2>
+      <p class="body">If your work is hands-on and local, this is for you. These are the trades I work with — but the list isn't a wall, it's a starting point.</p>
+    </div>
+    <!-- TRADES: broad on purpose, ordered by CSI/MasterFormat division (03→32).
+         If one trade becomes a specialty later, this is where we'd sharpen it. -->
+    <div class="trades reveal">
+      <span class="trade">Concrete</span>
+      <span class="trade">Stucco &amp; Masonry</span>
+      <span class="trade">Steel</span>
+      <span class="trade">Framing</span>
+      <span class="trade">Millwork</span>
+      <span class="trade">Waterproofing</span>
+      <span class="trade">Insulation</span>
+      <span class="trade">Roofing</span>
+      <span class="trade">Glass</span>
+      <span class="trade">Drywall</span>
+      <span class="trade">Flooring</span>
+      <span class="trade">Paint</span>
+      <span class="trade">MEP</span>
+      <span class="trade">Earthwork</span>
+      <span class="trade">Fencing</span>
+      <span class="trade">Decks &amp; Patios</span>
+      <span class="trade">Landscaping</span>
+    </div>
+    <p class="local reveal">Fort Worth and the surrounding metro. Staying local is the whole point — it's where I can actually move the needle for you, not spread thin across the country.</p>
+  </div>
+</section>
+
+<!-- ============ THE OFFER / WHERE YOU RANK ============ -->
+<section class="sec offer" id="rank">
+  <div class="wrap">
+    <div class="grid">
+      <div class="reveal">
+        <h2>Find out where you rank.</h2>
+        <p class="lead">I'll pull up your trade in your area and show you who's getting the top spots, how you stack up against them, and the plain reasons they're ahead. Most contractors have never actually seen this.</p>
+        <ul>
+          <li>The competitors getting found ahead of you</li>
+          <li>Where you sit in the standings — or if you're showing up at all</li>
+          <li>What's holding you back</li>
+          <li>One or two things worth fixing first</li>
+        </ul>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <!-- FORM: not yet connected to anything. Must be wired to a real handler before going live,
+             or requests will not reach Adam. This is the only door into the business. -->
+        <form class="form" id="rankForm" novalidate>
+          <h3>Tell me where to send it.</h3>
+          <div class="fld">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="fld">
+            <label for="biz">Business name</label>
+            <input type="text" id="biz" name="biz" autocomplete="organization" placeholder="Exactly as you're listed on Google" required>
+          </div>
+          <div class="fld">
+            <label for="trade">Your trade</label>
+            <select id="trade" name="trade" required>
+              <option value="" selected disabled>Pick one…</option>
+              <option>Insulation</option><option>Drywall</option><option>Stucco &amp; Masonry</option>
+              <option>Paint</option><option>Concrete</option><option>Fencing</option>
+              <option>Decks &amp; Patios</option><option>Roofing</option><option>Flooring</option>
+              <option>Framing</option><option>Landscaping</option><option>Other</option>
+            </select>
+          </div>
+          <div class="fld">
+            <label for="weblink">Website or Facebook page</label>
+            <input type="text" id="weblink" name="weblink" autocomplete="url" placeholder="yourbusiness.com or facebook.com/yourpage (optional)">
+          </div>
+          <div class="fld">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <button type="submit" class="btn btn-gold">Send me my report <span class="arw">→</span></button>
+          <p class="spam">I'll only use your email to send your report and the occasional tip. Unsubscribe anytime.</p>
+        </form>
+        <div class="ok" id="okMsg">
+          <div class="big">Got it.</div>
+          <p>I'll put your report together and email it over, usually within a day. — Adam</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <svg class="wheat fwheat" viewBox="0 0 64 78" aria-hidden="true" fill="currentColor"><g transform="translate(32 60) rotate(-19) scale(1.0)"><path d="M0 12 C0 1,-2.4 -9,-3.6 -18" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 -9 q-5 -1 -8 -4 q4 4.5 8 6 z"/><g transform="rotate(-26 -3.6 -18) translate(-3.6 1)"><path d="M0.07 -37.0 L1.02 -50.1" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L-3.49 -47.7" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L3.00 -48.0" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><ellipse cx="-2.24" cy="-21.49" rx="1.53" ry="2.74" transform="rotate(-33.7 -2.24 -21.49)"/><ellipse cx="2.67" cy="-21.55" rx="1.77" ry="3.09" transform="rotate(40.2 2.67 -21.55)"/><ellipse cx="-2.59" cy="-24.97" rx="1.52" ry="2.56" transform="rotate(-42.3 -2.59 -24.97)"/><ellipse cx="2.05" cy="-24.96" rx="1.50" ry="2.72" transform="rotate(42.8 2.05 -24.96)"/><ellipse cx="-1.93" cy="-27.63" rx="1.48" ry="2.56" transform="rotate(-41.1 -1.93 -27.63)"/><ellipse cx="2.51" cy="-27.04" rx="1.54" ry="2.66" transform="rotate(35.4 2.51 -27.04)"/><ellipse cx="-2.03" cy="-30.77" rx="1.43" ry="2.38" transform="rotate(-33.1 -2.03 -30.77)"/><ellipse cx="1.74" cy="-29.70" rx="1.46" ry="2.22" transform="rotate(33.9 1.74 -29.70)"/><ellipse cx="-1.65" cy="-34.94" rx="1.20" ry="2.09" transform="rotate(-36.2 -1.65 -34.94)"/><ellipse cx="1.87" cy="-35.79" rx="1.09" ry="2.19" transform="rotate(44.5 1.87 -35.79)"/><ellipse cx="-1.74" cy="-38.84" rx="1.01" ry="1.92" transform="rotate(-33.8 -1.74 -38.84)"/><ellipse cx="1.11" cy="-38.46" rx="1.13" ry="1.98" transform="rotate(41.2 1.11 -38.46)"/><ellipse cx="0.14" cy="-22.50" rx="1.38" ry="2.77"/><ellipse cx="-0.23" cy="-25.63" rx="1.56" ry="2.77"/><ellipse cx="0.38" cy="-28.86" rx="1.25" ry="2.48"/><ellipse cx="0.14" cy="-33.04" rx="1.14" ry="2.56"/><ellipse cx="-0.24" cy="-35.01" rx="1.26" ry="2.18"/></g></g><g transform="translate(32 60) rotate(26) scale(0.92)"><path d="M0 12 C0 2,1.8 -9,3 -19" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 -5 q5 -1 8 -4 q-4 4.5 -8 6 z"/><g transform="rotate(17 3 -19) translate(3 1)"><path d="M0.05 -37.0 L-0.31 -49.6" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L-3.30 -49.7" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L2.72 -46.7" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><ellipse cx="-2.74" cy="-20.41" rx="1.59" ry="3.03" transform="rotate(-38.3 -2.74 -20.41)"/><ellipse cx="2.63" cy="-21.42" rx="1.65" ry="3.05" transform="rotate(38.3 2.63 -21.42)"/><ellipse cx="-2.07" cy="-25.02" rx="1.58" ry="2.74" transform="rotate(-40.8 -2.07 -25.02)"/><ellipse cx="1.80" cy="-24.05" rx="1.48" ry="2.79" transform="rotate(43.3 1.80 -24.05)"/><ellipse cx="-1.57" cy="-28.07" rx="1.48" ry="2.48" transform="rotate(-31.9 -1.57 -28.07)"/><ellipse cx="2.29" cy="-28.43" rx="1.24" ry="2.39" transform="rotate(44.5 2.29 -28.43)"/><ellipse cx="-1.56" cy="-30.99" rx="1.27" ry="2.25" transform="rotate(-40.1 -1.56 -30.99)"/><ellipse cx="1.75" cy="-30.65" rx="1.41" ry="2.37" transform="rotate(44.0 1.75 -30.65)"/><ellipse cx="-0.96" cy="-35.13" rx="1.03" ry="2.24" transform="rotate(-31.5 -0.96 -35.13)"/><ellipse cx="1.76" cy="-35.26" rx="1.23" ry="1.98" transform="rotate(42.6 1.76 -35.26)"/><ellipse cx="-0.22" cy="-22.50" rx="1.37" ry="2.93"/><ellipse cx="-0.41" cy="-26.09" rx="1.49" ry="2.59"/><ellipse cx="-0.21" cy="-28.68" rx="1.38" ry="2.58"/><ellipse cx="0.11" cy="-31.58" rx="1.06" ry="2.35"/></g></g><g transform="translate(32 60) rotate(-5) scale(1.09)"><path d="M0 12 C0 2,0.8 -9,0.4 -20" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M0 -6 q5 -1 8 -4 q-4 4.5 -8 6 z"/><path d="M0 -11 q-5 -1 -8 -4 q4 4.5 8 6 z"/><g transform="rotate(7 0.4 -20)"><path d="M-0.42 -37.0 L0.36 -51.7" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L-3.44 -48.5" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><path d="M0 -37.0 L2.79 -48.0" stroke="currentColor" stroke-width="0.8" fill="none" stroke-linecap="round"/><ellipse cx="-2.56" cy="-21.52" rx="1.45" ry="2.87" transform="rotate(-33.4 -2.56 -21.52)"/><ellipse cx="2.16" cy="-21.33" rx="1.65" ry="3.08" transform="rotate(39.1 2.16 -21.33)"/><ellipse cx="-1.85" cy="-24.76" rx="1.64" ry="2.66" transform="rotate(-43.0 -1.85 -24.76)"/><ellipse cx="1.94" cy="-24.45" rx="1.62" ry="2.61" transform="rotate(39.1 1.94 -24.45)"/><ellipse cx="-2.17" cy="-27.76" rx="1.26" ry="2.40" transform="rotate(-42.1 -2.17 -27.76)"/><ellipse cx="2.22" cy="-27.91" rx="1.35" ry="2.61" transform="rotate(37.3 2.22 -27.91)"/><ellipse cx="-1.58" cy="-30.18" rx="1.24" ry="2.45" transform="rotate(-37.6 -1.58 -30.18)"/><ellipse cx="2.18" cy="-30.14" rx="1.25" ry="2.61" transform="rotate(32.7 2.18 -30.14)"/><ellipse cx="-1.39" cy="-34.36" rx="1.24" ry="2.08" transform="rotate(-35.6 -1.39 -34.36)"/><ellipse cx="1.86" cy="-33.85" rx="1.38" ry="2.19" transform="rotate(40.7 1.86 -33.85)"/><ellipse cx="-1.33" cy="-37.93" rx="1.27" ry="2.28" transform="rotate(-38.4 -1.33 -37.93)"/><ellipse cx="1.55" cy="-38.40" rx="1.22" ry="2.16" transform="rotate(44.9 1.55 -38.40)"/><ellipse cx="-0.22" cy="-22.50" rx="1.47" ry="2.86"/><ellipse cx="-0.04" cy="-25.51" rx="1.32" ry="2.52"/><ellipse cx="0.27" cy="-28.57" rx="1.23" ry="2.43"/><ellipse cx="0.37" cy="-32.20" rx="1.13" ry="2.36"/><ellipse cx="0.38" cy="-35.82" rx="1.28" ry="2.37"/></g></g></svg>
+    <div class="fmark">The SEO <b>Harvest</b></div>
+    <div class="fkick">Raise · Reap · Repeat</div>
+    <div class="meta">Adam Abshire · Fort Worth, TX · 22 years in construction</div>
+    <div class="tag">A trades guy who learned marketing — not a marketer who found contractors.</div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveals
+  (function(){
+    var els = document.querySelectorAll('.reveal:not(.in)');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target);} });
+    },{threshold:.16});
+    els.forEach(function(e){io.observe(e);});
+  })();
+
+  // Form: sends the request to a Google Sheet via an Apps Script Web App.
+  // PASTE THE WEB APP URL BETWEEN THE QUOTES BELOW once it's deployed:
+  var SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxWlw3EzJtZUQU7mUgO0FJ1SL23eaV_LrhRjyu0pLlBkuI06_IkfmiA28-zMcXeVurg/exec";
+  document.getElementById('rankForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!this.checkValidity()){ this.reportValidity(); return; }
+    var form = this;
+    if(SHEET_ENDPOINT){
+      var data = new URLSearchParams({
+        name:  form.name.value,
+        biz:   form.biz.value,
+        trade: form.trade.value,
+        weblink: form.weblink.value,
+        email: form.email.value
+      });
+      fetch(SHEET_ENDPOINT, { method:'POST', mode:'no-cors', body:data }).catch(function(){});
+    }
+    form.style.display = 'none';
+    document.getElementById('okMsg').classList.add('show');
+  });
+</script>
+</body>
+</html>
