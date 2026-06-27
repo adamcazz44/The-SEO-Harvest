@@ -185,7 +185,9 @@
   .who p.body{font-size:18px;color:#cdbf9f;margin-top:14px;max-width:32em;}
   .trades{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px;}
   .trade{font-family:'Saira Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
-    font-size:16px;padding:9px 16px;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:#e9dcc0;}
+    font-size:16px;padding:9px 16px;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:#e9dcc0;display:inline-block;text-decoration:none;transition:box-shadow .25s ease,border-color .25s ease,color .25s ease,transform .25s ease;}
+  .trade:hover{border-color:var(--gold);color:#fff;box-shadow:0 0 18px 1px rgba(207,143,35,.55);transform:translateY(-1px);}
+  a.trade{cursor:pointer;border-color:rgba(207,143,35,.5);}
   .who .local{margin-top:28px;font-size:15px;color:#b8a98a;max-width:34em;}
 
   /* offer */
@@ -371,18 +373,18 @@
     <!-- TRADES: broad on purpose, ordered by CSI/MasterFormat division (03→32).
          If one trade becomes a specialty later, this is where we'd sharpen it. -->
     <div class="trades reveal">
-      <span class="trade">Concrete</span>
+      <a class="trade" href="/concrete-contractor-marketing-fort-worth.html">Concrete</a>
       <span class="trade">Stucco &amp; Masonry</span>
       <span class="trade">Steel</span>
       <span class="trade">Framing</span>
       <span class="trade">Millwork</span>
       <span class="trade">Waterproofing</span>
-      <span class="trade">Insulation</span>
+      <a class="trade" href="/insulation-contractor-marketing-fort-worth.html">Insulation</a>
       <span class="trade">Roofing</span>
       <span class="trade">Glass</span>
-      <span class="trade">Drywall</span>
+      <a class="trade" href="/drywall-contractor-marketing-fort-worth.html">Drywall</a>
       <span class="trade">Flooring</span>
-      <span class="trade">Paint</span>
+      <a class="trade" href="/painter-marketing-fort-worth.html">Paint</a>
       <span class="trade">MEP</span>
       <span class="trade">Earthwork</span>
       <span class="trade">Fencing</span>
