@@ -100,11 +100,52 @@
   .card .foot{padding:11px 18px;background:var(--paper-2);font-size:12.5px;color:var(--ink-soft);border-top:1px solid var(--line);}
   .card .foot b{color:var(--soil);}
 
+  /* ---------- map-pack sample card (Option A) ---------- */
+  .mpcard{background:var(--paper-card);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 40px -22px rgba(33,26,19,.55);overflow:hidden;}
+  .mpcard .chead{background:var(--soil);color:#f3ecdc;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+  .mpcard .chead .t{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:20px;}
+  .mpcard .chead .t span{color:var(--gold);}
+  .mpcard .chead .tag{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.14em;background:var(--rust);color:#fff;padding:3px 9px;border-radius:3px;text-transform:uppercase;}
+  .mpcard .search{display:flex;align-items:center;gap:9px;margin:14px 16px 12px;padding:9px 13px;border-radius:24px;border:1px solid var(--line);background:#fff;}
+  .mpcard .search .q{flex:1;font-size:13.5px;color:#3a342a;}
+  .mpcard .search .q b{color:var(--soil);}
+  .mpcard .search .go{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em;background:var(--gold);color:var(--soil);padding:5px 11px;border-radius:14px;}
+  .mpcard .mpmap{position:relative;height:96px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);overflow:hidden;}
+  .mpcard .mpmap .roads{position:absolute;inset:0;width:100%;height:100%;}
+  .mpcard .pin{position:absolute;width:24px;height:24px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 6px rgba(0,0,0,.3);}
+  .mpcard .pin b{transform:rotate(45deg);color:#fff;font-family:'Spline Sans Mono',monospace;font-size:12px;font-weight:600;}
+  .mpcard .pin.gh{background:transparent !important;border:2.5px dashed var(--rust);box-shadow:none;}
+  .mpcard .pin.gh b{color:var(--rust);}
+  .mpcard .list{padding:4px 0 0;}
+  .mpcard .lrow{display:flex;gap:12px;align-items:flex-start;padding:11px 18px;border-top:1px solid var(--line-soft);}
+  .mpcard .lrow .lp{flex:0 0 22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .mpcard .lrow .lp b{transform:rotate(45deg);color:#fff;font-family:'Spline Sans Mono',monospace;font-size:11px;}
+  .mpcard .lrow .lbody{flex:1;}
+  .mpcard .lrow .lnm{font-weight:700;font-size:15px;line-height:1.2;}
+  .mpcard .lrow .lrt{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
+  .mpcard .lrow .lrt .st{color:var(--gold-deep);letter-spacing:1px;}
+  .mpcard .lrow .lcat{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .mpcard .lrow .lact{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.03em;color:var(--gold-deep);margin-top:6px;}
+  .mpcard .lrow.you{background:linear-gradient(90deg,rgba(207,143,35,.16),rgba(156,74,30,.10));border-top:2px solid var(--gold);}
+  .mpcard .lrow.you .lp{background:transparent;border:2px dashed var(--rust);}
+  .mpcard .lrow.you .lp b{color:var(--rust);}
+  .mpcard .lrow.you .lnm{color:var(--rust);text-transform:uppercase;font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:20px;letter-spacing:.02em;}
+  .mpcard .lrow.you .miss{color:var(--rust);font-weight:600;font-size:13.5px;margin-top:5px;}
+  .mpcard .cfoot{padding:11px 18px;background:var(--paper-2);font-size:12.5px;color:var(--ink-soft);border-top:1px solid var(--line);}
+  .mpcard .cfoot b{color:var(--soil);}
+
   /* ---------- honest strip ---------- */
   .strip{background:var(--soil);color:#e9dcc0;}
   .strip .wrap{padding:18px 26px;text-align:center;font-family:'Saira Condensed',sans-serif;font-weight:600;
     text-transform:uppercase;letter-spacing:.05em;font-size:clamp(17px,2.4vw,22px);}
   .strip b{color:var(--gold);}
+
+  /* ---------- timing / honest note ---------- */
+  .timing{background:var(--paper-2);}
+  .timing .wrap{padding:64px 26px;max-width:800px;}
+  .timing .body{font-size:18.5px;color:var(--soil);margin-top:18px;line-height:1.66;max-width:40em;}
+  .timing .body b{color:var(--gold-deep);}
+  .timing .kicker{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.005em;font-size:clamp(23px,3.6vw,34px);color:var(--field);margin-top:28px;line-height:1.05;border-left:4px solid var(--gold);padding-left:18px;}
 
   /* ---------- generic section ---------- */
   .sec{padding:78px 0;}
@@ -230,17 +271,26 @@
 
       <!-- SIGNATURE: sample standings card -->
       <div class="reveal in" style="transition-delay:.12s">
-        <div class="card" aria-label="Sample ranking report">
-          <div class="head">
-            <span class="t">Where You <span>Rank</span></span>
-            <span class="tag">Sample</span>
+        <div class="mpcard" aria-label="Sample ranking report">
+          <div class="chead"><span class="t">Where You <span>Rank</span></span><span class="tag">Sample</span></div>
+          <div class="search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a06912" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke-linecap="round"/></svg>
+            <span class="q">spray foam insulation <b>near me</b></span><span class="go">Search</span>
           </div>
-          <div class="sub">Spray foam insulation · Fort Worth, TX</div>
-          <div class="row"><span class="pos">1</span><span class="nm">A North-side competitor</span><span class="stat">★ 4.8 · 132 reviews</span></div>
-          <div class="row"><span class="pos">2</span><span class="nm">A competitor across town</span><span class="stat">★ 4.6 · 88 reviews</span></div>
-          <div class="row"><span class="pos">3</span><span class="nm">A newer shop nearby</span><span class="stat">★ 4.9 · 41 reviews</span></div>
-          <div class="row you"><span class="pos">—</span><span class="nm">You</span><span class="stat">Not showing on the map</span></div>
-          <div class="foot">This is an example. <b>Yours uses your real trade, your real area, and real numbers.</b></div>
+          <div class="mpmap">
+            <svg class="roads" viewBox="0 0 460 96" preserveAspectRatio="none"><rect width="460" height="96" fill="#e7e0cf"/><g stroke="#d6cbb0" stroke-width="7" fill="none"><path d="M-10 32 H470"/><path d="M-10 70 H470"/><path d="M130 -10 V106"/><path d="M310 -10 V106"/></g><g stroke="#cfc3a6" stroke-width="2"><path d="M60 -10 V106"/><path d="M390 -10 V106"/></g></svg>
+            <div class="pin" style="left:25%;top:20px;background:var(--rust)"><b>1</b></div>
+            <div class="pin" style="left:63%;top:34px;background:var(--rust)"><b>2</b></div>
+            <div class="pin" style="left:44%;top:52px;background:var(--rust)"><b>3</b></div>
+            <div class="pin gh" style="left:78%;top:56px"><b>?</b></div>
+          </div>
+          <div class="list">
+            <div class="lrow"><div class="lp" style="background:var(--rust)"><b>1</b></div><div class="lbody"><div class="lnm">A North-side competitor</div><div class="lrt">4.8 <span class="st">★★★★★</span> · 132 reviews</div><div class="lcat">Insulation contractor · Fort Worth</div><div class="lact">Website · Directions · Call</div></div></div>
+            <div class="lrow"><div class="lp" style="background:var(--rust)"><b>2</b></div><div class="lbody"><div class="lnm">A competitor across town</div><div class="lrt">4.6 <span class="st">★★★★★</span> · 88 reviews</div><div class="lcat">Spray foam contractor · Fort Worth</div><div class="lact">Website · Directions · Call</div></div></div>
+            <div class="lrow"><div class="lp" style="background:var(--rust)"><b>3</b></div><div class="lbody"><div class="lnm">A newer shop nearby</div><div class="lrt">4.9 <span class="st">★★★★★</span> · 41 reviews</div><div class="lcat">Insulation contractor · Keller</div><div class="lact">Website · Directions · Call</div></div></div>
+            <div class="lrow you"><div class="lp"><b>?</b></div><div class="lbody"><div class="lnm">You</div><div class="miss">Fort Worth’s best-kept secret — and that’s the problem.</div></div></div>
+          </div>
+          <div class="cfoot">This is an example. <b>Yours uses your real trade, your real area, and real numbers.</b></div>
         </div>
       </div>
     </div>
@@ -337,6 +387,15 @@
       <span class="trade">Landscaping</span>
     </div>
     <p class="local reveal">Fort Worth and the surrounding metro. Staying local is the whole point — it's where I can actually move the needle for you, not spread thin across the country.</p>
+  </div>
+</section>
+
+<!-- ============ TIMING / HONEST NOTE ============ -->
+<section class="sec timing">
+  <div class="wrap reveal">
+    <span class="eyebrow">A word on timing</span>
+    <p class="body">Google search results and rankings take time to compound before movement is observed, in most cases <b>3&nbsp;–&nbsp;6 months</b>. The companies that rank higher, do so because they put these processes in place many months or years ago. It will take patience to watch these efforts bear fruit. However, you simply cannot afford to continue another day before putting these strategies in place.</p>
+    <p class="kicker">The best time to plant a tree was yesterday.</p>
   </div>
 </section>
 
