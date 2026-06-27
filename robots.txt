@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theseoharvest.com/sitemap.xml
