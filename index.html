@@ -28,7 +28,8 @@
 <meta name="twitter:image" content="https://theseoharvest.com/share-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Mulish:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Mulish:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800&family=Mulish:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@500;600&display=swap"></noscript>
 <style>
   :root{
     --soil:#211a13;        /* near-black warm brown: text + dark sections */
@@ -37,7 +38,7 @@
     --paper-2:#e3d6b8;     /* slightly deeper panel */
     --paper-card:#f5efe0;  /* light card surface */
     --gold:#cf8f23;        /* harvest/wheat gold — "reap" */
-    --gold-deep:#a06912;
+    --gold-deep:#7e520d;
     --field:#46591f;       /* deep field green — "raise" / grow */
     --field-deep:#33420f;
     --rust:#9c4a1e;        /* worn-steel accent, used sparingly */
@@ -237,6 +238,8 @@
   .ok.show{display:block;}
   .ok .big{font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;font-size:24px;color:var(--gold);}
   .ok p{margin-top:8px;font-size:15px;color:#dcceb0;}
+  .form .err{display:none;font-size:13.5px;color:var(--rust);font-weight:700;margin-top:12px;text-align:center;}
+  .form .err.show{display:block;}
 
   /* footer */
   footer{background:var(--soil-2);color:#b8a98a;}
@@ -265,6 +268,13 @@
     .reveal{transition:none;opacity:1;transform:none;}
     .btn,.btn .arw{transition:none;}
   }
+  /* common-questions / related links block */
+  .related{background:var(--paper-2);}
+  .related .wrap{padding:46px 26px;}
+  .related .eyebrow{display:block;margin-bottom:14px;}
+  .rlist{display:flex;flex-wrap:wrap;gap:12px;}
+  .rlink{background:var(--paper-card);border:1px solid var(--line);border-radius:6px;padding:13px 18px;font-family:'Saira Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:16px;color:var(--soil);}
+  .rlink:hover{border-color:var(--gold-deep);color:var(--gold-deep);}
 </style>
 <!-- Local business schema. Add your real Google listing + Facebook URLs to "sameAs" below when you have them. -->
 <script type="application/ld+json">
@@ -452,6 +462,20 @@
   </div>
 </section>
 
+<!-- ============ COMMON QUESTIONS ============ -->
+<section class="related">
+  <div class="wrap">
+    <span class="eyebrow">Common questions I hear from contractors</span>
+    <div class="rlist">
+      <a class="rlink" href="/why-business-not-showing-on-google-maps.html">Not Showing on Google Maps?</a>
+      <a class="rlink" href="/get-more-google-reviews-contractor.html">Get More Reviews</a>
+      <a class="rlink" href="/how-contractors-get-more-leads.html">Get More Leads</a>
+      <a class="rlink" href="/why-competitors-outrank-me-google.html">Why Competitors Outrank You</a>
+      <a class="rlink" href="/google-business-profile-category-contractor.html">Why Your Category Matters</a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ THE OFFER / WHERE YOU RANK ============ -->
 <section class="sec offer" id="rank">
   <div class="wrap">
@@ -467,8 +491,6 @@
         </ul>
       </div>
       <div class="reveal" style="transition-delay:.1s">
-        <!-- FORM: not yet connected to anything. Must be wired to a real handler before going live,
-             or requests will not reach Adam. This is the only door into the business. -->
         <form class="form" id="rankForm" novalidate>
           <h3>Tell me where to send it.</h3>
           <div class="fld">
@@ -506,6 +528,7 @@
           </div>
           <button type="submit" class="btn btn-gold">Send me my report <span class="arw">→</span></button>
           <p class="spam">I'll only use your email to send your report and the occasional tip. Unsubscribe anytime.</p>
+          <p class="err" id="errMsg" role="alert">Hmm — that didn't go through. Mind trying that again?</p>
         </form>
         <div class="ok" id="okMsg">
           <div class="big">Got it.</div>
@@ -530,6 +553,7 @@
       <a href="/how-contractors-get-more-leads.html">Get More Leads</a>
       <a href="/why-competitors-outrank-me-google.html">Why Competitors Outrank You</a>
       <a href="/google-business-profile-category-contractor.html">Why Your Category Matters</a>
+      <a href="/privacy.html">Privacy</a>
     </nav>
   </div>
 </footer>
@@ -545,25 +569,31 @@
     els.forEach(function(e){io.observe(e);});
   })();
 
-  // Form: sends the request to a Google Sheet via an Apps Script Web App.
-  // PASTE THE WEB APP URL BETWEEN THE QUOTES BELOW once it's deployed:
+  // Form: posts to a Google Apps Script Web App that appends the lead to a Google Sheet.
+  // no-cors means the response is opaque (status can't be read), so we treat a resolved
+  // promise as "sent" and a thrown error as a failure the visitor can retry.
   var SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbxWlw3EzJtZUQU7mUgO0FJ1SL23eaV_LrhRjyu0pLlBkuI06_IkfmiA28-zMcXeVurg/exec";
   document.getElementById('rankForm').addEventListener('submit', function(e){
     e.preventDefault();
     if(!this.checkValidity()){ this.reportValidity(); return; }
     var form = this;
-    if(SHEET_ENDPOINT){
-      var data = new URLSearchParams({
-        name:  form.name.value,
-        biz:   form.biz.value,
-        trade: form.trade.value,
-        weblink: form.weblink.value,
-        email: form.email.value
+    var errMsg = document.getElementById('errMsg');
+    errMsg.classList.remove('show');
+    var data = new URLSearchParams({
+      name:  form.name.value,
+      biz:   form.biz.value,
+      trade: form.trade.value,
+      weblink: form.weblink.value,
+      email: form.email.value
+    });
+    fetch(SHEET_ENDPOINT, { method:'POST', mode:'no-cors', body:data })
+      .then(function(){
+        form.style.display = 'none';
+        document.getElementById('okMsg').classList.add('show');
+      })
+      .catch(function(){
+        errMsg.classList.add('show');
       });
-      fetch(SHEET_ENDPOINT, { method:'POST', mode:'no-cors', body:data }).catch(function(){});
-    }
-    form.style.display = 'none';
-    document.getElementById('okMsg').classList.add('show');
   });
 </script>
 </body>
